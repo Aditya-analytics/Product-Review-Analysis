@@ -15,4 +15,4 @@ COPY frontend/dist ./frontend/dist
 EXPOSE 8080
 
 # Start with gunicorn - Railway sets PORT env var
-CMD gunicorn --bind 0.0.0.0:${PORT:-8080} --workers 2 --timeout 120 --access-logfile - --error-logfile - api:app
+CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:${PORT:-8080} --workers 2 --timeout 120 --access-logfile - --error-logfile - api:app"]

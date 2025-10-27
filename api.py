@@ -5,7 +5,7 @@ import joblib
 import io
 import os
 
-app = Flask(__name__, static_folder='frontend/dist', static_url_path='')
+app = Flask(__name__, static_folder='frontend/dist')
 CORS(app)
 
 # Load the sentiment analysis model
@@ -61,28 +61,35 @@ def predict():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/api', methods=['GET'])
+@app.route('/api/health', methods=['GET'])
+def health():
+    return jsonify({'status': 'healthy'})
+
+@app.route('/api/info', methods=['GET'])
 def api_info():
     return jsonify({
         'message': 'Product Review Sentiment Analysis API',
         'endpoints': {
-            '/health': 'GET - Health check',
+            '/api/health': 'GET - Health check',
             '/predict': 'POST - Upload CSV for sentiment analysis'
         }
     })
 
-@app.route('/health', methods=['GET'])
-def health():
-    return jsonify({'status': 'healthy'})
-
-# Serve React frontend
+# Catch-all route for React frontend
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
-def serve(path):
-    if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
-        return send_from_directory(app.static_folder, path)
-    else:
+def serve_frontend(path):
+    # If path is empty, serve index.html
+    if path == '':
         return send_from_directory(app.static_folder, 'index.html')
+    
+    # If it's a file in static folder, serve it
+    file_path = os.path.join(app.static_folder, path)
+    if os.path.exists(file_path) and os.path.isfile(file_path):
+        return send_from_directory(app.static_folder, path)
+    
+    # Otherwise, serve index.html for client-side routing
+    return send_from_directory(app.static_folder, 'index.html')
 
 if __name__ == '__main__':
     import os

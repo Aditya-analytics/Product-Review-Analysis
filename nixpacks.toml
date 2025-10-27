@@ -1,15 +1,11 @@
 [phases.setup]
-nixPkgs = ["python311", "gcc"]
-aptPkgs = ["nodejs", "npm"]
+nixPkgs = ["python311"]
 
 [phases.install]
-cmds = [
-    "pip install -r requirements.txt",
-    "cd frontend && npm ci --prefer-offline --no-audit"
-]
+cmds = ["pip install -r requirements.txt"]
 
 [phases.build]
-cmds = ["bash build.sh"]
+cmds = ["echo 'Using pre-built frontend from dist/'"]
 
 [start]
 cmd = "gunicorn --bind 0.0.0.0:$PORT --workers 2 --timeout 120 api:app"

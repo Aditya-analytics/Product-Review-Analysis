@@ -63,7 +63,9 @@ const AnalyzerPage = () => {
     formData.append('file', uploadFile)
 
     try {
-      const response = await fetch('http://localhost:5000/predict', {
+      // Use relative URL so it works both locally and on Railway
+      const apiUrl = import.meta.env.PROD ? '/predict' : 'http://localhost:5000/predict'
+      const response = await fetch(apiUrl, {
         method: 'POST',
         body: formData,
       })

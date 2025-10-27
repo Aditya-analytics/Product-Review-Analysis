@@ -29,5 +29,5 @@ ENV PYTHONUNBUFFERED=1
 EXPOSE 8080
 
 # Start gunicorn
-CMD gunicorn --workers=2 --timeout=120 --bind=0.0.0.0:$PORT api:app
+CMD gunicorn api:app --bind 0.0.0.0:$PORT
 

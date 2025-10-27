@@ -1,14 +1,10 @@
 #!/bin/bash
-# Build script for Railway
-
-echo "Installing Python dependencies..."
-pip install -r requirements.txt
-
-echo "Installing Node.js dependencies..."
-cd frontend
-npm install
+set -e  # Exit on error
 
 echo "Building React frontend..."
-npm run build
+cd frontend || exit 1
+
+# Use production build with memory optimization
+NODE_ENV=production NODE_OPTIONS="--max-old-space-size=4096" npm run build
 
 echo "Build complete!"

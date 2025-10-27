@@ -5,7 +5,8 @@ import joblib
 import io
 import os
 
-app = Flask(__name__, static_folder='frontend/dist', static_url_path='')
+app = Flask(__name__, static_folder='frontend/build', static_url_path='')
+
 CORS(app)
 
 # Load the sentiment analysis model

@@ -29,4 +29,5 @@ ENV PYTHONUNBUFFERED=1
 EXPOSE 8080
 
 # Start gunicorn
-CMD ["gunicorn", "--workers", "2", "--timeout", "120", "api:app"]
+CMD ["gunicorn", "--workers", "2", "--timeout", "120", "-b", "0.0.0.0:8080", "api:app"]
+

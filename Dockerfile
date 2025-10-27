@@ -24,10 +24,9 @@ COPY --from=frontend-builder /frontend/dist ./frontend/dist
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
-ENV PORT=8080
 
 # Expose port for Railway
 EXPOSE 8080
 
-# Use shell form to expand PORT variable
-CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:$PORT --workers 2 --timeout 120 --access-logfile - --error-logfile - api:app"]
+# Start gunicorn
+CMD ["gunicorn", "--workers", "2", "--timeout", "120", "api:app"]

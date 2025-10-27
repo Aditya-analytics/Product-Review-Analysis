@@ -20,18 +20,15 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application files
 COPY api.py .
 COPY senti_lr.pkl .
-COPY start.sh .
 COPY --from=frontend-builder /frontend/dist ./frontend/dist
-
-# Make start script executable
-RUN chmod +x start.sh
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1
+ENV PORT=8080
 
 # Expose port for Railway
 EXPOSE 8080
 
-# Start application
-CMD ["./start.sh"]
+# Start application - use bash to expand PORT variable
+CMD ["/bin/bash", "-c", "gunicorn api:app --bind 0.0.0.0:${PORT} --workers 2 --timeout 120"]
 

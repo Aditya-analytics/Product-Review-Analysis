@@ -12,7 +12,7 @@ COPY senti_lr.pkl .
 COPY frontend/dist ./frontend/dist
 
 # Expose port
-EXPOSE 5000
+EXPOSE 8080
 
-# Start with gunicorn
-CMD gunicorn --bind 0.0.0.0:$PORT --workers 2 --timeout 120 api:app
+# Start with gunicorn - Railway sets PORT env var
+CMD gunicorn --bind 0.0.0.0:${PORT:-8080} --workers 2 --timeout 120 --access-logfile - --error-logfile - api:app

@@ -1,14 +1,14 @@
 [phases.setup]
-nixPkgs = ['nodejs-18_x', 'python310']
+aptPkgs = ['...', 'nodejs', 'npm']
 
 [phases.install]
 cmds = [
     'pip install -r requirements.txt',
-    'cd frontend && npm install'
+    'cd frontend && npm ci'
 ]
 
 [phases.build]
 cmds = ['cd frontend && npm run build']
 
 [start]
-cmd = 'python api.py'
+cmd = 'gunicorn api:app'

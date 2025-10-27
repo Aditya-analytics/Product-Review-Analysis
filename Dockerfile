@@ -20,8 +20,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application files
 COPY api.py .
 COPY senti_lr.pkl .
-COPY --from=frontend-builder /frontend/build ./frontend/build
-
+COPY --from=frontend-builder /frontend/dist ./frontend/dist
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1

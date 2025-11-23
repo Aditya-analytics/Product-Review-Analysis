@@ -26,7 +26,7 @@ COPY --from=frontend-builder /frontend/dist ./frontend/dist
 ENV PYTHONUNBUFFERED=1
 ENV PORT=8080
 
-# Expose port for Railway
+# Expose port for deployment (Render/Railway)
 EXPOSE 8080
 
 # Start application - use bash to expand PORT variable
